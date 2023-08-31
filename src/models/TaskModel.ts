@@ -10,7 +10,7 @@ export interface ITask extends Document {
 const taskSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  assignedTo: { type: Schema.Types.ObjectId, ref: 'Staff', required: true },
+  assignedTo: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   // Define more fields...
 });
 

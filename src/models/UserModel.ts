@@ -10,6 +10,8 @@ export enum UserRole {
 }
 
 export interface IUser extends Document {
+  firstName:string;
+  lastName:string;
   username: string;
   email: string;
   password: string;
@@ -17,6 +19,8 @@ export interface IUser extends Document {
   address: string;
   sex: 'Male' | 'Female' | 'Other';
   role: UserRole;
+  verified: Boolean,
+  verificationToken: String | undefined,
 }
 
 const userSchema = new Schema({
@@ -27,6 +31,8 @@ const userSchema = new Schema({
   address: { type: String, required: true },
   sex: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
   role: { type: String, enum: Object.values(UserRole), required: true },
+  verified: {type: Boolean, required:true},
+  verificationToken: { type: String },
 });
 
 // Hash the password before saving

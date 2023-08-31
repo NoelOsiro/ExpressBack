@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Verification</title>
+  <style>
+    /* Add your email styling here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .email-container {
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #ffffff;
+    }
+    .verification-link {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h1>{{emailSubject}}</h1>
+    <p>Thank you for signing up! Please verify your email by clicking the link below:</p>
+    <p><a class="verification-link" href="{{verificationLink}}">Verify Email</a></p>
+    <p>If you didn't request this verification, you can safely ignore this email.</p>
+  </div>
+</body>
+</html>

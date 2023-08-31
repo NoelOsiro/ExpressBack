@@ -9,6 +9,35 @@ const router = express.Router();
  * /appointments:
  *   post:
  *     summary: Create a new appointment
+ *     parameters:
+ *       - in: query
+ *         name: startTime
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Starting time
+ *       - in: query
+ *         name: duration
+ *         schema:
+ *           type: number
+ *           format: integer
+ *         description: Appointment duration
+ *       - in: query
+ *         name: reason
+ *         schema:
+ *           type: string
+ *           format: string
+ *         description: Appointment Reason
+ *       - in: query
+ *         name: patient
+ *         schema:
+ *           type: string
+ *         description: Appointment Patient
+ *       - in: query
+ *         name: staff
+ *         schema:
+ *           type: string
+ *         description: Appointment Staff
  *     requestBody:
  *       description: Appointment details
  *       required: true
@@ -19,20 +48,20 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: Created appointment
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Appointment'
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Appointment'
  *       500:
  *         description: An error occurred
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res) => { 
   try {
     const newAppointment = new Appointment(req.body);
     await newAppointment.save();
     res.status(201).json(newAppointment);
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ error: error });
   }
 });
 
@@ -89,6 +118,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const appointment = await Appointment.findById(req.params.id);
+    
     if (!appointment) {
       return res.status(404).json({ error: 'Appointment not found' });
     }

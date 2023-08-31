@@ -1,7 +1,6 @@
-// app.ts
 import express from 'express';
 import cors from 'cors';
-import db from './db';
+import { connectWithRetry } from './db'; // Correct the import statement
 import authRoutes from './routes/AuthRoutes';
 import patientRoutes from './routes/patientRoutes';
 import appointmentRoutes from './routes/appointmentRoutes';
@@ -10,6 +9,7 @@ import { setupSwagger } from '../swagger';
 
 export const app = express();
 const PORT = process.env.PORT || 8000;
+const dbURI = process.env.DB_URI || '';
 
 app.use(cors());
 app.use(express.json());
@@ -24,8 +24,13 @@ app.use('/appointments', appointmentRoutes);
 app.use('/tasks', taskRoutes);
 
 setupSwagger(app);
-db.once('open', () => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+
+connectWithRetry(dbURI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err);
   });
-});
