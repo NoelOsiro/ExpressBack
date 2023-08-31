@@ -7,7 +7,7 @@ import appointmentRoutes from './routes/appointmentRoutes';
 import taskRoutes from './routes/taskRoutes';
 import { setupSwagger } from '../swagger';
 
-export const app = express();
+const app = express();
 const PORT = process.env.PORT || 8000;
 const dbURI = process.env.DB_URI || '';
 
@@ -34,3 +34,6 @@ connectWithRetry(dbURI)
   .catch(err => {
     console.error('Error connecting to MongoDB:', err);
   });
+
+// Export the Express API
+module.exports = app;
